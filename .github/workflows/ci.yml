@@ -28,10 +28,16 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
+    - name: Get and Print JAR file name
+      id: find_jar
+      run: |
+        JAR_FILE=$(ls build/libs/*.jar | head -n 1)
+        echo "JAR_FILE=${JAR_FILE##*/}"
+
     - name: Build and Push Docker Image
       uses: mr-smithers-excellent/docker-build-push@v4
       with:
-        image: nanajanashia/demo-app
+        image: ltnisgod/github_action_image
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
